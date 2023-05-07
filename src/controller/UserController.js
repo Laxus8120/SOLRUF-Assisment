@@ -105,8 +105,6 @@ const getByEmail = async (req,res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        console.log(req.Email)
         return res.status(500).json({
             message : "Something went wrong",
             data : {},
@@ -117,11 +115,32 @@ const getByEmail = async (req,res) => {
     }
 }
 
+const destroy  = async (req,res) => {
+
+    try {
+        const user  = await userService.destroy(req.param.id);
+        return res.status(200).json({
+            data : user,
+            success : true,
+            message : 'Successfully deleted a user',
+            err : {} 
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : "Something went wrong",
+            data : {},
+            success : false ,
+            err : error,
+            data : {}
+        })
+    }
+}
 
 module.exports = {
     create,
     signIn,
     isAuthenticated,
     getAll,
-    getByEmail
+    getByEmail,
+    destroy
 }

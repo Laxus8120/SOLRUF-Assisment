@@ -82,6 +82,16 @@ class UserService {
         }
     }
 
+    async destroy(userId){
+        try {
+            const response =  await this.userRepository.destroy(userId);
+            return response;
+        } catch (error) {
+            console.log("Something went wrong in sevice layer");
+            throw{error};
+        }
+    }
+
     verifyToken(token){
         try {
             const response = jwt.verify(token, JWT_KEY);

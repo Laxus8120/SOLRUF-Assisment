@@ -13,13 +13,15 @@ class UserRepository {
             }
         }
 
-        async destroy(Email){
+        async destroy(userId){
             try {
                 const result = await User.destroy({
-                    Email : Email
+                    id : userId
                 });
-                return result;
+                console.log(userId)
+                return true;
             } catch (error) {
+                console.log(result)
                 console.log("Something went wrong in repo layer of destroy function ");
                 throw error;
             }
