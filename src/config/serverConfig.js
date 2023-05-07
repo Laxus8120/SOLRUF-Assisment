@@ -8,6 +8,6 @@ module.exports = {
 
     PORT : process.env.PORT,
     SALT : bcrypt.genSaltSync(10),
-    JWT  : process.env.JWT_KEY
+    JWT_KEY  : process.env.JWT_KEY
 
 }
