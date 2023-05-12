@@ -38,9 +38,9 @@ class UserRepository {
             }
         }
 
-        async getById(userId){
+        async getById(id){
             try {
-                const user = await User.findByPk(userId,{
+                const user = await User.findByPk(id,{
                     attributes : ['email', 'id']
                 });
                 console.log(user)
@@ -63,17 +63,13 @@ class UserRepository {
             }
         }
 
-        async getByEmail(userId){
+        async getUser(id){
             try {
-                const result = await User.findOne({
-                    where : {
-                        Email : userId.Email
-                    }
-                });
+                const result = await User.findByPk(id);
                 return result;
             } catch (error) {
                 console.log("Something went wrong in rep layer of getByEmail ");
-                console.log(userId);
+                console.log(result);
                 throw error;
             }
         }

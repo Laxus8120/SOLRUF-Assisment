@@ -10,7 +10,7 @@ router.post('/signUp',validateAuth.validateUserAuth, UserController.create);
 router.post('/signIn', validateAuth.validateUserAuth,UserController.signIn)
 router.get('/isAuthenticated', UserController.isAuthenticated);
 router.get('/getAll',UserController.getAll);
-router.get('/get',UserController.getByEmail);
+router.get('/get/:id',UserController.getUser);
 router.delete('/user/:id', UserController.destroy);
 module.exports = router;
 

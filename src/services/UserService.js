@@ -72,9 +72,9 @@ class UserService {
         }
     }
 
-    async getByEmail(Email){
+    async getUser(id){
         try {
-            const user = await this.userRepository.getByEmail(Email);
+            const user = await this.userRepository.getUser(id);
             return user;
         } catch (error) {
             console.log("Not able to fetch all detail");

@@ -93,12 +93,12 @@ const getAll = async (req,res) => {
     }
 }
 
-const getByEmail = async (req,res) => {
+const getUser = async (req,res) => {
     
     try {
-        const response = await userService.getByEmail(req.body);
+        const response = await userService.getUser(req.params.id);
         return res.status(200).json({
-            success : "true",
+            success : true,
             error : {},
             data : response,
             message : "Succesfully get the details"
@@ -141,6 +141,6 @@ module.exports = {
     signIn,
     isAuthenticated,
     getAll,
-    getByEmail,
+    getUser,
     destroy
 }
