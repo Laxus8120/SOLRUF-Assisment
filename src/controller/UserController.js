@@ -118,11 +118,32 @@ const getUser = async (req,res) => {
 const destroy  = async (req,res) => {
 
     try {
-        const user  = await userService.destroy(req.param.id);
+        const user  = await userService.destroy({id : req.params.id, Email : req.body.Email, Password : req.body.Password});
         return res.status(200).json({
             data : user,
             success : true,
             message : 'Successfully deleted a user',
+            err : {} 
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : "Something went wrong",
+            data : {},
+            success : false ,
+            err : error,
+            data : {}
+        })
+    }
+}
+
+const update  = async (req,res) => {
+
+    try {
+        const user  = await userService.update({id : req.params.id, Email : req.body.Email, Password : req.body.Password, newPassword : req.body.newPassword});
+        return res.status(200).json({
+            data : user,
+            success : true,
+            message : 'Successfully updated a user',
             err : {} 
         })
     } catch (error) {
@@ -142,5 +163,6 @@ module.exports = {
     isAuthenticated,
     getAll,
     getUser,
-    destroy
+    destroy,
+    update
 }

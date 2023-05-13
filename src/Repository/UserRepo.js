@@ -1,5 +1,6 @@
 const {User} = require('../models/index')
-
+const bcrypt = require('bcrypt');
+const {SALT} = require('../config/serverConfig')
 
 class UserRepository {
 
@@ -15,10 +16,11 @@ class UserRepository {
 
         async destroy(userId){
             try {
-                const result = await User.destroy({
-                    id : userId
+                await User.destroy({
+                    where : {
+                        id : userId
+                    }
                 });
-                console.log(userId)
                 return true;
             } catch (error) {
                 console.log(result)
@@ -30,7 +32,14 @@ class UserRepository {
         async update(data){
 
             try {
-                const result = await User.create(data);
+                console.log(data.newPassword);
+                const  encryptedPassword  = bcrypt.hashSync(data.newPassword, SALT);
+                console.log(encryptedPassword);
+                const result = await User.update({Password : encryptedPassword},{
+                    where :{
+                        id : data.id
+                    }
+                });
                 return result;
             } catch (error) {
                 console.log("Something went wrong in rep layer of update function ");
@@ -43,7 +52,6 @@ class UserRepository {
                 const user = await User.findByPk(id,{
                     attributes : ['email', 'id']
                 });
-                console.log(user)
                 return user;
             } catch (error) {
                 console.log("Something went wrong in rep layer of get function ");
@@ -59,6 +67,20 @@ class UserRepository {
                 return result;
             } catch (error) {
                 console.log("Something went wrong in rep layer of finding All function ");
+                throw error;
+            }
+        }
+
+        async getByEmail(Email){
+            try {
+                const result = await User.findOne({
+                    where : {
+                        Email : Email
+                    }
+                });
+                return result;
+            } catch (error) {
+                console.log("Something went wrong in rep layer of getByEmail, whether wrong Email or no user with email ");
                 throw error;
             }
         }

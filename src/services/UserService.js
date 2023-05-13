@@ -82,15 +82,43 @@ class UserService {
         }
     }
 
-    async destroy(userId){
+    async destroy(data){
         try {
-            const response =  await this.userRepository.destroy(userId);
+            // step 1 --> fetch the user using the email
+            const user = await this.userRepository.getByEmail(data.Email); 
+            // step 2--> compare incoming plain password with store encrypted password
+            const passwordMatch =  this.checkPassword(data.Password, user.Password);// --> user.password, it provide encrypted password sotred in db
+            if(!passwordMatch){
+                console.log("Password does't match");
+                throw { error : " Incorrect Password"};
+            }
+            const response =  await this.userRepository.destroy(data.id);
             return response;
         } catch (error) {
             console.log("Something went wrong in sevice layer");
             throw{error};
         }
     }
+
+    async update(data){
+        try {
+            // step 1 --> fetch the user using the email
+            const user = await this.userRepository.getByEmail(data.Email); 
+            // step 2--> compare incoming plain password with store encrypted password
+            const passwordMatch =  this.checkPassword(data.Password, user.Password);// --> user.password, it provide encrypted password sotred in db
+            if(!passwordMatch){
+                console.log("Password does't match");
+                throw { error : " Incorrect Password"};
+            }
+            const response =  await this.userRepository.update(data);
+            return response;
+        } catch (error) {
+            console.log("Something went wrong in sevice layer");
+            throw{error};
+        }
+    }
+
+
 
     verifyToken(token){
         try {

@@ -12,5 +12,6 @@ router.get('/isAuthenticated', UserController.isAuthenticated);
 router.get('/getAll',UserController.getAll);
 router.get('/get/:id',UserController.getUser);
 router.delete('/user/:id', UserController.destroy);
+router.patch('/user/:id', UserController.update);
 module.exports = router;
 
